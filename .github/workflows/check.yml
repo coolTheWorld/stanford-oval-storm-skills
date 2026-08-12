@@ -1,0 +1,48 @@
+name: checks
+
+# Zero-secret CI, modeled on addyosmani/agent-skills' test-plugin-install.yml:
+# static boundary checks + validator selftest, then a real installability test
+# of the repo-as-marketplace chain. The paid layers (--smoke, E2E) never run
+# in CI — they need an API key and cost money (SPEC decisions 20–21).
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  boundary-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Boundary checks + validator selftest
+        run: node scripts/check.js --selftest
+
+  install-test:
+    runs-on: ubuntu-latest
+    needs: boundary-checks
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Add this repo as a local marketplace
+        run: claude plugin marketplace add ./
+      - name: List marketplaces
+        run: claude plugin marketplace list
+      - name: Install the plugin from the local marketplace
+        run: claude plugin install storm@oval-storm
+      - name: Verify the plugin is actually installed
+        run: claude plugin list | grep -i storm

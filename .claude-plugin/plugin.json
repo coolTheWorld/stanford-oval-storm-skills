@@ -1,0 +1,19 @@
+{
+  "name": "storm",
+  "description": "Multi-perspective deep research that writes Wikipedia-style, fully-cited articles. Unofficial native implementation of the Stanford STORM methodology — no Python, no extra API keys.",
+  "version": "0.2.0",
+  "author": {
+    "name": "coolTheWorld"
+  },
+  "homepage": "https://github.com/coolTheWorld/oval-storm-skill",
+  "repository": "https://github.com/coolTheWorld/oval-storm-skill",
+  "license": "Apache-2.0",
+  "keywords": [
+    "research",
+    "deep-research",
+    "storm",
+    "writing",
+    "citations",
+    "wikipedia"
+  ]
+}

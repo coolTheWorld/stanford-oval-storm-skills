@@ -1,0 +1,15 @@
+{
+  "name": "oval-storm",
+  "description": "Home of the storm plugin — Stanford STORM methodology (multi-perspective research, fully-cited Wikipedia-style articles) reimplemented natively for Claude Code.",
+  "owner": {
+    "name": "coolTheWorld",
+    "url": "https://github.com/coolTheWorld"
+  },
+  "plugins": [
+    {
+      "name": "storm",
+      "source": "./",
+      "description": "Multi-perspective deep research that writes Wikipedia-style, fully-cited articles. Unofficial native implementation of the Stanford STORM methodology."
+    }
+  ]
+}
