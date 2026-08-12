@@ -195,7 +195,7 @@ v0.2.0 (all verified on 2026-08-12):
 - [x] `scripts/check.js` (Node port of the original bash guard) passes — 32 static checks — and `--selftest` proves it fails with exit 1 on three injected violations, one in YAML-list form
 - [x] Structural frontmatter parsing catches YAML-list tool smuggling that the bash text-shape greps missed (proven with an injected list-format violation)
 - [x] Repo-as-marketplace install chain verified locally: `marketplace add ./` → `install storm@oval-storm` → uninstall/remove leaves config clean
-- [ ] CI workflow green on GitHub (pending first push)
+- [x] CI workflow green on GitHub — first run passed on commit 5b164c9 (2026-08-12): boundary checks + selftest job and the real marketplace install-test job
 
 Per-run (qualitative, checked at E2E):
 
