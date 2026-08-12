@@ -22,7 +22,7 @@ Runtime behavior:
 For a prompt-only plugin there is no binary to sign — a fork or typosquat can silently change what the agents are allowed to do. Install only from the canonical repository:
 
 ```
-/plugin marketplace add coolTheWorld/oval-storm-skill
+/plugin marketplace add coolTheWorld/stanford-oval-storm-skills
 /plugin install storm@oval-storm
 ```
 

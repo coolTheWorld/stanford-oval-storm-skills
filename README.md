@@ -10,14 +10,14 @@ A Claude Code plugin that ports the [Stanford STORM](https://github.com/stanford
 
 ```bash
 # From GitHub (recommended)
-/plugin marketplace add coolTheWorld/oval-storm-skill
+/plugin marketplace add coolTheWorld/stanford-oval-storm-skills
 /plugin install storm@oval-storm
 
 # Or, for local development
-claude --plugin-dir /path/to/oval-storm-skill
+claude --plugin-dir /path/to/stanford-oval-storm-skills
 ```
 
-Install only from this canonical repository (`coolTheWorld/oval-storm-skill`) — for a prompt-only plugin, a fork or typosquat can silently change what the agents are allowed to do. Per-agent tool grants are documented in [SECURITY.md](SECURITY.md).
+Install only from this canonical repository (`coolTheWorld/stanford-oval-storm-skills`) — for a prompt-only plugin, a fork or typosquat can silently change what the agents are allowed to do. Per-agent tool grants are documented in [SECURITY.md](SECURITY.md).
 
 ## Usage
 
@@ -106,14 +106,14 @@ Based on the methodology of the papers [*Assisting in Writing Wikipedia-like Art
 
 ```bash
 # 从 GitHub 安装（推荐）
-/plugin marketplace add coolTheWorld/oval-storm-skill
+/plugin marketplace add coolTheWorld/stanford-oval-storm-skills
 /plugin install storm@oval-storm
 
 # 或本地开发加载
-claude --plugin-dir /path/to/oval-storm-skill
+claude --plugin-dir /path/to/stanford-oval-storm-skills
 ```
 
-请只从本仓库（`coolTheWorld/oval-storm-skill`）安装——纯提示词插件的 fork/仿冒仓库可以悄悄改变代理的行为权限。各代理的工具授权见 [SECURITY.md](SECURITY.md)。
+请只从本仓库（`coolTheWorld/stanford-oval-storm-skills`）安装——纯提示词插件的 fork/仿冒仓库可以悄悄改变代理的行为权限。各代理的工具授权见 [SECURITY.md](SECURITY.md)。
 
 ## 用法
 
