@@ -5,7 +5,7 @@
 ## Hard boundaries (digest — authoritative versions in `SPEC.md` § Boundaries)
 
 - Pure prompt plugin: Markdown + JSON only. Never add runtime dependencies (Python, packages, API keys).
-- `storm-writer` never gets search tools; `storm-expert` never gets Write. In discuss mode the director is the run directory's single writer from beat 1 onward; in research mode and warm start, researchers and writers write only their own assigned files.
+- Tool grants are exact and minimal: writer = Read+Write (no search), expert = WebSearch+WebFetch+Read (no write), researcher = WebSearch+WebFetch+Write (no read). In discuss mode the director is the run directory's single writer from beat 1 onward; in research mode and warm start, researchers and writers write only their own assigned files.
 - Citation discipline is non-negotiable: sources are fetched before they are cited; encyclopedias are never citable; search snippets only route.
 - `/storm:research` and `/storm:discuss` stay slash-only (`disable-model-invocation: true`).
 - Design docs: `SPEC.md` only — no CONTEXT.md, no ADR files. Ask the owner before adding any new documentation file or command.

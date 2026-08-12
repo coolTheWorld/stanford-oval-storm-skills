@@ -37,7 +37,7 @@ const sameSet = (a, b) => a.length === b.length && [...a].sort().join('|') === [
 // "Ask first: adding any new command") and requires a deliberate edit here.
 const KNOWN_SKILLS = ['research', 'discuss'];
 const AGENT_TOOLS = {
-  'storm-researcher': ['WebSearch', 'WebFetch', 'Read', 'Write'],
+  'storm-researcher': ['WebSearch', 'WebFetch', 'Write'],
   'storm-writer': ['Read', 'Write'],
   'storm-expert': ['WebSearch', 'WebFetch', 'Read'],
 };
@@ -81,7 +81,7 @@ const REQUIRED = [
   '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
   'skills/research/SKILL.md', 'skills/discuss/SKILL.md',
   'agents/storm-researcher.md', 'agents/storm-writer.md', 'agents/storm-expert.md',
-  'SPEC.md', 'README.md', 'AGENTS.md', 'CLAUDE.md', 'LICENSE',
+  'SPEC.md', 'README.md', 'AGENTS.md', 'CLAUDE.md', 'LICENSE', 'SECURITY.md',
   '.github/workflows/check.yml',
 ];
 for (const f of REQUIRED) check(fs.existsSync(f), `exists: ${f}`);

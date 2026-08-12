@@ -17,6 +17,8 @@ A Claude Code plugin that ports the [Stanford STORM](https://github.com/stanford
 claude --plugin-dir /path/to/oval-storm-skill
 ```
 
+Install only from this canonical repository (`coolTheWorld/oval-storm-skill`) — for a prompt-only plugin, a fork or typosquat can silently change what the agents are allowed to do. Per-agent tool grants are documented in [SECURITY.md](SECURITY.md).
+
 ## Usage
 
 ```
@@ -110,6 +112,8 @@ Based on the methodology of the papers [*Assisting in Writing Wikipedia-like Art
 # 或本地开发加载
 claude --plugin-dir /path/to/oval-storm-skill
 ```
+
+请只从本仓库（`coolTheWorld/oval-storm-skill`）安装——纯提示词插件的 fork/仿冒仓库可以悄悄改变代理的行为权限。各代理的工具授权见 [SECURITY.md](SECURITY.md)。
 
 ## 用法
 

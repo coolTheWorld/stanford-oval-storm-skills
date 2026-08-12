@@ -28,7 +28,7 @@ Announce in one line that you're warming up (background research, a few minutes)
 
 **If same-topic research artifacts exist** (`run.json` with completed research stages, `research/*.md`): reuse them free. Derive the roster from `perspectives.md` personas (pick the `--experts` most diverse; rephrase as discussion experts). Seed `mindmap.md` from the research notes: major concepts → top-level nodes; attach each claim's global `[n]` by translating its lane-local `[S#]` tag via the `lanes:` field of `references.md` — S-numbers are file-local and must never appear in the mind map. `references.md` continues its numbering untouched.
 
-**Otherwise**: 1–2 WebSearch calls to map the topic; generate the roster (each expert: name, one-line persona, what they'd probe) plus 3 warm-start lanes; spawn **storm-researcher** × 3 in a single message (2 turns each, notes to `research/warmstart-<lane>.md`, full citation discipline restated); merge their sources into `references.md` with global numbering (create it if absent, dedupe by URL); seed `mindmap.md` from the notes, translating `[S#]` tags to global `[n]` via the `lanes:` mapping.
+**Otherwise**: 1–2 WebSearch calls to map the topic; generate the roster (each expert: name, one-line persona, what they'd probe) plus 3 warm-start lanes; spawn **storm-researcher** × 3 in a single message (2 turns each, notes to `research/warmstart-<lane>.md`, full citation discipline restated; delete any leftover warmstart notes before respawning a failed lane — researchers have no Read tool); merge their sources into `references.md` with global numbering (create it if absent, dedupe by URL); seed `mindmap.md` from the notes, translating `[S#]` tags to global `[n]` via the `lanes:` mapping.
 
 Write `discuss.json`:
 

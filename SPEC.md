@@ -1,6 +1,6 @@
 # Spec: storm — STORM for Claude Code
 
-> **Provenance.** Consolidated in English from the interactive design sessions of 2026-08-12 (`/grilling` decision-tree walks: the v1 pipeline, then the Co-STORM extension). Every decision below was resolved with the owner *before* implementation; v0.1.0 implements decisions 1–12, v0.2.0 adds 13–21. This is a living document and the repo's **single design document**: update it first when a decision changes. The decision table below is the full decision record.
+> **Provenance.** Consolidated in English from the interactive design sessions of 2026-08-12 (`/grilling` decision-tree walks: the v1 pipeline, then the Co-STORM extension). Every decision below was resolved with the owner *before* implementation; v0.1.0 implements decisions 1–12, v0.2.0 adds 13–22. This is a living document and the repo's **single design document**: update it first when a decision changes. The decision table below is the full decision record.
 
 ## Objective
 
@@ -37,6 +37,7 @@ v0.2.0 adds the Co-STORM half: `/storm:discuss` hosts a moderated multi-expert r
 | 19 | Agent instruction files | Dual-file: `AGENTS.md` (open cross-tool standard) holds the ~15-line contributor digest — "SPEC.md is the single design document", boundary digest, dev loop; `CLAUDE.md` is a one-line `@AGENTS.md` import (the official interop pattern — Claude Code natively reads only CLAUDE.md). These are session-loading infrastructure for *contributors working in this repo* — plugin installers never see them (Claude Code loads only plugin components: `skills/`, `agents/`, manifests; a plugin cannot inject CLAUDE.md-style instructions into its users' sessions, by design); design content stays exclusively in this SPEC | CLAUDE.md only (ties the digest to one tool; owner prefers the open standard); `@SPEC.md` import (would inject the whole spec into every session's launch context); nothing (fresh sessions, machines, and contributors lose the boundary discipline) |
 | 20 | Testing | Guard script `scripts/check.js` (Node built-ins only, no package.json — Node is already the workflow's hard dependency for installing the CLI): the SPEC's mechanical invariants as deterministic zero-token assertions with *structural* frontmatter parsing — tool restrictions are checked against the parsed tools list in both `key: value` and YAML-list forms, so reformatting can't smuggle a tool past the guard (proven by an injected list-format violation); `--smoke` wraps the paid haiku load checks; `--selftest` proves fail-capability by injected violations (exit 1). Conventional TDD/unit frameworks don't apply — no executable code, and LLM behavior can't be asserted deterministically; paid E2E stays manual pre-release | A test framework (nothing to unit-test; a dependency would contradict decision 1's zero-dep stance); no automation (a frontmatter boundary regression passes `claude plugin validate` silently — schema checks don't know our design rules); the original bash version (text-shape greps fail open when frontmatter is reformatted to YAML lists — retired after the Node port); Python (a second CI runtime where Node is already required) |
 | 21 | CI | Zero-secret GitHub Actions workflow, modeled on addyosmani/agent-skills' `test-plugin-install.yml` (which proved `claude plugin validate` and `plugin install` run keyless in CI): job 1 = `node scripts/check.js --selftest` (boundary checks + the checker's own fail-proof, their validator-self-test idea), job 2 = real installability test of the repo-as-marketplace chain (`marketplace add ./` → `install storm@oval-storm`) — the one path no other layer exercised; verified step-by-step locally with clean rollback. Paid layers (`--smoke`, E2E) never run in CI | Adopting their evals scaffolding (empty even upstream; our behavioral layer is decision 20's manual E2E); cross-tool command-parity checks (single-tool repo); `--smoke` in CI (needs a paid API key — breaks the zero-secret stance) |
+| 22 | Researcher least-privilege + SECURITY.md | Dropped the unused `Read` grant from storm-researcher (`tools: WebSearch, WebFetch, Write`) after the pre-push security audit flagged Read+WebFetch in one agent as a latent read-local-then-exfiltrate primitive a malicious fork could weaponize. Enabling change: orchestrators delete a failed lane's leftover notes before respawning, since Write-tool overwrites require a prior Read the agent no longer has. `SECURITY.md` documents per-agent grants, runtime behavior, and install provenance; README links it from both Install sections | Keeping `Read` "just in case" (unused capability is pure attack surface); documenting grants without shrinking them |
 
 ## Tech Stack
 
@@ -78,7 +79,10 @@ skills/research/SKILL.md        → research orchestrator: five stages, gate,
                                   run.json resume protocol, depth presets
 skills/discuss/SKILL.md         → discourse director: beats, moderator logic,
                                   mind map maintenance, warm start, report
-agents/storm-researcher.md      → researcher role (WebSearch/WebFetch/Read/Write)
+agents/storm-researcher.md      → researcher role (WebSearch/WebFetch/Write — no
+                                  Read: least privilege, decision 22)
+SECURITY.md                     → per-agent tool grants, runtime behavior,
+                                  install provenance, reporting
 agents/storm-writer.md          → writer role (Read/Write ONLY — no search, by design)
 agents/storm-expert.md          → discuss-mode grounding role: single-shot grounded
                                   Q&A (WebSearch/WebFetch/Read — no Write; the
@@ -192,7 +196,7 @@ v0.2.0 (all verified on 2026-08-12):
 - [x] `claude plugin validate .` still passes with zero warnings
 - [x] `storm-expert` loads alongside the other agents under the `storm:` namespace
 - [x] `/storm:discuss` registers as a slash command; empty-arg invocation shows the director behaving per playbook
-- [x] `scripts/check.js` (Node port of the original bash guard) passes — 32 static checks — and `--selftest` proves it fails with exit 1 on three injected violations, one in YAML-list form
+- [x] `scripts/check.js` (Node port of the original bash guard) passes — 33 static checks — and `--selftest` proves it fails with exit 1 on three injected violations, one in YAML-list form
 - [x] Structural frontmatter parsing catches YAML-list tool smuggling that the bash text-shape greps missed (proven with an injected list-format violation)
 - [x] Repo-as-marketplace install chain verified locally: `marketplace add ./` → `install storm@oval-storm` → uninstall/remove leaves config clean
 - [x] CI workflow green on GitHub — first run passed on commit 5b164c9 (2026-08-12): boundary checks + selftest job and the real marketplace install-test job

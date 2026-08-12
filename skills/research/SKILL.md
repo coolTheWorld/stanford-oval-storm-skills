@@ -66,7 +66,7 @@ Spawn one **storm-researcher** subagent per lane — all launched in a single me
 - the absolute notes path (`<cwd>/storm/<slug>/research/<lane-slug>.md`);
 - the citation discipline, restated: search snippets only route and are never citable; every source cited in notes must have been fetched and read; encyclopedias are never sources; unopenable or paywalled pages are discarded; search bilingually (topic language + English) and use whichever has the better sources.
 
-On completion, verify each notes file exists and contains at least one sourced answer. Record per-lane status. If a lane failed or produced nothing: with ≥2 successful lanes, warn the user and continue; with fewer, stop and diagnose. Never re-run a lane marked done.
+On completion, verify each notes file exists and contains at least one sourced answer. Record per-lane status. If a lane failed or produced nothing: with ≥2 successful lanes, warn the user and continue; with fewer, stop and diagnose. Never re-run a lane marked done. Before respawning a failed lane, delete its leftover notes file if any — the researcher has no Read tool, so a fresh Write must not collide with a stale file.
 
 ## 3. Reference pool
 
