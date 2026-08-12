@@ -11,7 +11,7 @@ A Claude Code plugin that ports the [Stanford STORM](https://github.com/stanford
 ```bash
 # From GitHub (recommended)
 /plugin marketplace add coolTheWorld/stanford-oval-storm-skills
-/plugin install storm@oval-storm
+/plugin install storm@stanford-oval-storm-skills
 
 # Or, for local development
 claude --plugin-dir /path/to/stanford-oval-storm-skills
@@ -107,7 +107,7 @@ Based on the methodology of the papers [*Assisting in Writing Wikipedia-like Art
 ```bash
 # 从 GitHub 安装（推荐）
 /plugin marketplace add coolTheWorld/stanford-oval-storm-skills
-/plugin install storm@oval-storm
+/plugin install storm@stanford-oval-storm-skills
 
 # 或本地开发加载
 claude --plugin-dir /path/to/stanford-oval-storm-skills

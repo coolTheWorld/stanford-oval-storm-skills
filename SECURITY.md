@@ -23,7 +23,7 @@ For a prompt-only plugin there is no binary to sign — a fork or typosquat can 
 
 ```
 /plugin marketplace add coolTheWorld/stanford-oval-storm-skills
-/plugin install storm@oval-storm
+/plugin install storm@stanford-oval-storm-skills
 ```
 
 Verify the owner spelling (`coolTheWorld`) before adding the marketplace, and review `agents/*.md` frontmatter after updates if you want to re-verify the grants — they are three short files.

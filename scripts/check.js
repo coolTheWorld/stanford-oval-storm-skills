@@ -101,7 +101,7 @@ let market = null;
 try { market = JSON.parse(read('.claude-plugin/marketplace.json') ?? ''); pass('marketplace.json is valid JSON'); }
 catch { fail('marketplace.json is valid JSON'); }
 check(plugin !== null && plugin.name === 'storm', "plugin name is 'storm'");
-check(market !== null && market.name === 'oval-storm', "marketplace name is 'oval-storm'");
+check(market !== null && market.name === 'stanford-oval-storm-skills', "marketplace name is 'stanford-oval-storm-skills'");
 const entry = market && Array.isArray(market.plugins) ? market.plugins[0] : null;
 check(entry !== null && entry.name === 'storm' && entry.source === './',
   "marketplace lists plugin 'storm' with source './' (CI's install coordinate)");

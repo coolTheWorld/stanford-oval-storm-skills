@@ -1,5 +1,5 @@
 {
-  "name": "oval-storm",
+  "name": "stanford-oval-storm-skills",
   "description": "Home of the storm plugin — Stanford STORM methodology (multi-perspective research, fully-cited Wikipedia-style articles) reimplemented natively for Claude Code.",
   "owner": {
     "name": "coolTheWorld",

@@ -43,6 +43,6 @@ jobs:
       - name: List marketplaces
         run: claude plugin marketplace list
       - name: Install the plugin from the local marketplace
-        run: claude plugin install storm@oval-storm
+        run: claude plugin install storm@stanford-oval-storm-skills
       - name: Verify the plugin is actually installed
         run: claude plugin list | grep -i storm
