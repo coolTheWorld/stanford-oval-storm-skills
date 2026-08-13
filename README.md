@@ -19,6 +19,8 @@ claude --plugin-dir /path/to/stanford-oval-storm-skills
 
 Install only from this canonical repository (`coolTheWorld/stanford-oval-storm-skills`) — for a prompt-only plugin, a fork or typosquat can silently change what the agents are allowed to do. Per-agent tool grants are documented in [SECURITY.md](SECURITY.md).
 
+**Tested baseline**: the pipelines are end-to-end tested with **Sonnet 5 (xhigh reasoning effort)** as the orchestrating model. Weaker models can run them — the playbooks carry explicit guardrails — but acceptance testing happens only on the baseline, and cheaper models may degrade orchestration quality (state tracking, citation bookkeeping).
+
 ## Usage
 
 ```
@@ -114,6 +116,8 @@ claude --plugin-dir /path/to/stanford-oval-storm-skills
 ```
 
 请只从本仓库（`coolTheWorld/stanford-oval-storm-skills`）安装——纯提示词插件的 fork/仿冒仓库可以悄悄改变代理的行为权限。各代理的工具授权见 [SECURITY.md](SECURITY.md)。
+
+**测试基线**：两条管线以 **Sonnet 5（xhigh 推理强度）**作为编排模型做端到端验收测试。更弱的模型也能运行（playbook 内置显式护栏），但验收只在基线配置上进行，低配模型可能降低编排质量（状态跟踪、引用记账）。
 
 ## 用法
 
