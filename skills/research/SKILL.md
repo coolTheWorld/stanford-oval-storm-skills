@@ -22,7 +22,7 @@ You are the Orchestrator of a STORM run: five stages, disk as the interface betw
 - `--lang <language>`: article language. Default: the language the topic itself is written in.
 - `--yes`: skip the perspective gate (fully unattended run).
 - `--fresh`: discard any existing run for this topic (confirm with the user before deleting).
-- Run directory: `storm/<slug>/` in the current working directory. Slug = topic with `/\:*?"<>|` and newlines removed, whitespace collapsed to `-`, original language kept, max 60 chars, leading dots and dashes stripped. If the result is empty or consists only of dots, refuse and ask for a real topic. When creating the run directory, write `storm/.gitignore` containing `*` (if absent) so run artifacts stay out of the user's VCS by default.
+- Run directory: `storm/<slug>/` in the current working directory. Slug = topic with `/\:*?"<>|` and newlines removed, whitespace collapsed to `-`, original language kept, max 60 chars, leading dots and dashes stripped. If the result is empty or consists only of dots, refuse and ask for a real topic. When creating the run directory, write `storm/.gitignore` containing `*` (if absent) so run artifacts stay out of the user's VCS by default. Create `run.json` at the same moment — immediately after parsing the request, before stage 1 — with every stage `pending` (shape in §0.5), then update it after every stage transition; a run without `run.json` is unresumable and violates this playbook.
 
 ## 0.5 Resume check
 
@@ -54,7 +54,7 @@ If `storm/<slug>/run.json` exists and `--fresh` was not given:
 1. 1–3 WebSearch calls to map how this topic is covered: kinds of existing articles, stakeholders, schools of thought, controversies, adjacent fields.
 2. Generate the N discovered perspectives — for each: a name, a one-line persona, 2–3 focus bullets. Perspectives must be genuinely different interrogation angles (a historian, a practitioner, a critic, an economist…), not sub-topics. Always append the fixed lane **Foundational Facts** (definitions, history, basic mechanics — the baseline every article needs).
 3. Write `perspectives.md`; mark `plan: done`.
-4. **Perspective gate** (skip only with `--yes`): present the research plan compactly — each lane's name, persona, focus, plus turns per lane and expected scale — and ask the user to confirm, edit, drop, or add perspectives. Apply their edits to `perspectives.md`. Proceed only on explicit confirmation; mark `gate: passed`.
+4. **Perspective gate** (skip only with `--yes`). Hard precondition: `perspectives.md` is on disk before the gate is announced — verify the file exists; claiming it was written is not writing it. Present the research plan compactly — each lane's name, persona, focus, plus turns per lane and expected scale — and ask the user to confirm, edit, drop, or add perspectives. Apply their edits to `perspectives.md`. Proceed only on explicit confirmation; mark `gate: passed`.
 
 ## 2. Parallel research
 
@@ -98,7 +98,7 @@ Read the outline, the section files it enumerates under `sections/` (never `repo
 1. **Lead**: write a 2–4 paragraph unsectioned summary of the entire article (cited like body text) — the encyclopedic lead.
 2. **Cross-section dedup**: where two sections cover the same material, keep it where it belongs and compress the other occurrence to a sentence. Resolve `<!-- gap: … -->` comments where the pool actually supports the content; delete the comment otherwise.
 3. **Assemble `article.md`**: `# <topic>` + lead + sections in outline order + `## References` listing only numbers actually cited in the final text. Keep global numbers even if that leaves gaps — numbering must stay auditable against `references.md`.
-4. **Consistency pass**: every [n] in the text exists in the references list; every listed [n] is cited at least once; headings match the outline.
+4. **Consistency pass — mechanical, never from memory**: extract the set of `[n]` actually present in the assembled text (a quick script or grep over `article.md`), then reconcile: every extracted number exists in the article's References list and in `references.md`; every listed number is cited at least once; headings match the outline.
 
 Mark `polish: done`.
 
