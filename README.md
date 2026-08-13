@@ -88,10 +88,6 @@ storm/<topic>/
 
 Interrupted? Run the same `/storm:research <topic>` again — it resumes from the first incomplete stage.
 
-## Roadmap
-
-- `/storm:outline` (pre-writing stages only) and `/storm:rewrite` (re-write from existing notes) — deliberately deferred; added only on demonstrated need.
-
 ## Attribution & license
 
 Based on the methodology of the papers [*Assisting in Writing Wikipedia-like Articles From Scratch with Large Language Models*](https://arxiv.org/abs/2402.14207) (NAACL 2024) and [*Into the Unknown Unknowns: Engaged Human Learning through Participation in Language Model Agent Conversations*](https://arxiv.org/abs/2408.15232) (EMNLP 2024) by the Stanford OVAL lab. This project is not affiliated with or endorsed by Stanford; it reimplements the method and shares no code with [`knowledge-storm`](https://github.com/stanford-oval/storm). Licensed under [Apache-2.0](LICENSE).
@@ -151,10 +147,6 @@ Warm start 是智能的：被 `/storm:research` 研究过的主题免费复用�
 引用纪律（从严）：搜索摘要只用于选路、不可引用；凡被引用的来源必被抓取读过原文；百科不作引源；打不开/付费墙的页面不引；正文每个论断都带可回溯到引源池的 [n] 角标。
 
 产物全部落在当前项目的 `storm/<主题>/` 下（run.json 为断点，重跑同主题自动续跑；不想提交产物就把 `storm/` 加进 `.gitignore`）。讨论态在同一目录追加 `mindmap.md`（思维导图）、`discourse.md`（话语记录）、`discuss.json`（会话状态）与 `report.md`（报告）；`references.md` 两态共用、只增不删。
-
-## 路线图
-
-- `/storm:outline`（只跑预写作）与 `/storm:rewrite`（用既有笔记改写，不重新研究）——刻意推迟，确有需求再加。
 
 ## 归属与许可
 
