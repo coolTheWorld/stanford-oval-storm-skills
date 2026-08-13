@@ -16,4 +16,4 @@
 - Checks: `node scripts/check.js` — SPEC boundary invariants + manifest validation, zero tokens, Node built-ins only; must pass before any push. `--smoke` adds paid headless load checks (a few cents); `--selftest` proves the checker itself can fail
 - CI: `.github/workflows/check.yml` runs `node scripts/check.js --selftest` plus a real marketplace-install test on every push/PR (zero secrets; paid layers never run in CI)
 - Live test: `claude --plugin-dir .`, then `/reload-plugins` after edits
-- Full test ladder: see `SPEC.md` § Testing Strategy (paid E2E stays manual, pre-release)
+- Full test ladder: see `SPEC.md` § Testing Strategy (paid E2E stays manual, pre-release; baseline executor: Sonnet 5 at xhigh effort)
