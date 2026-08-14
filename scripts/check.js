@@ -56,14 +56,23 @@ if (AUDIT_DIR) {
 
   check(fs.existsSync(dir), `run directory exists: ${dir}`);
 
-  const runJson = read(at('run.json'));
-  let run = null;
-  try { run = JSON.parse(runJson ?? ''); pass('run.json exists and parses (playbook §0: created at request parse)'); }
-  catch { fail('run.json exists and parses (playbook §0: created at request parse)'); }
+  // A run directory may hold a research run, a discussion, or both. Only a
+  // research run owns run.json/perspectives.md; a discussion owns discuss.json
+  // and writes warm-start notes under research/, so directory presence alone
+  // cannot tell them apart.
+  const isResearch = ['run.json', 'outline.md', 'article.md'].some((f) => fs.existsSync(at(f)));
+  const isDiscuss = fs.existsSync(at('discuss.json'));
+  console.log(`      (mode: ${[isResearch && 'research', isDiscuss && 'discuss'].filter(Boolean).join(' + ') || 'unknown'})`);
 
-  // Independent of run.json: a missing checkpoint must not hide a missing plan.
-  if (fs.existsSync(at('research'))) {
+  let run = null;
+  if (isResearch) {
+    try { run = JSON.parse(read(at('run.json')) ?? ''); pass('run.json exists and parses (playbook §0: created at request parse)'); }
+    catch { fail('run.json exists and parses (playbook §0: created at request parse)'); }
     check(fs.existsSync(at('perspectives.md')), 'perspectives.md on disk (playbook §1: gate precondition)');
+  }
+  if (isDiscuss) {
+    try { JSON.parse(read(at('discuss.json')) ?? ''); pass('discuss.json exists and parses'); }
+    catch { fail('discuss.json exists and parses'); }
   }
   if (run !== null && run.stages && run.stages.research) {
     const lanes = Object.entries(run.stages.research);
@@ -94,6 +103,16 @@ if (AUDIT_DIR) {
     check(dupes.length === 0, `pool is deduped by URL${dupes.length ? ` — duplicates: ${[...new Set(dupes)].join(', ')}` : ''}`);
     const ency = poolUrls.filter((u) => /wikipedia\.org|baike\.baidu|britannica\.com/i.test(u));
     check(ency.length === 0, `no encyclopedia sources in the pool${ency.length ? ` — found: ${ency.join(', ')}` : ''}`);
+
+    // Advisory, not a verdict: whether an original was reachable is a judgement
+    // no script can make. Surfacing the candidates beats trusting the prompt.
+    const FARMS = /csdn\.net|zhihu\.com|jianshu\.com|cnblogs\.com|51cto\.com|sohu\.com|163\.com|baijiahao|toutiao\.com|medium\.com|dayanzai/i;
+    const farms = poolUrls.filter((u) => FARMS.test(u));
+    if (farms.length) {
+      console.log(`WARN  ${farms.length} aggregator/repost source(s) in the pool — check the original was unreachable: ${farms.join(', ')}`);
+    } else {
+      pass('no aggregator/repost sources in the pool');
+    }
   }
   const poolSet = new Set(poolNums);
 
