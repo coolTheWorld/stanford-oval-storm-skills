@@ -205,6 +205,13 @@ v0.2.0 (all verified on 2026-08-12):
 - [x] Repo-as-marketplace install chain verified locally: `marketplace add ./` → `install storm@stanford-oval-storm-skills` → uninstall/remove leaves config clean
 - [x] CI workflow green on GitHub — first run passed on commit 5b164c9 (2026-08-12): boundary checks + selftest job and the real marketplace install-test job
 
+v0.2.2 acceptance (all verified 2026-08-14 on the baseline executor, every run audited with `--audit`):
+
+- [x] Default `standard` tier end to end — 5 lanes × 3 turns → 7 sections, 46 sources, 46/46 traceable; the perspective gate paused, accepted a user-added lane, and re-confirmed before spending
+- [x] Discuss **cold start** on an unresearched topic — `warmStart: mini-research`, 3 mini-lanes, pool built from scratch, 6 beats × exactly 3 utterances, moderator fired twice, 7-section report 47/47 traceable
+- [x] The decision-25 Critical fix proven in the wild — interrupted after section writing, `/clear`, re-invoked: the resume read the existing `run.json` instead of overwriting it, cross-checked artifacts, announced "resuming from stage 6: Polish", spawned zero subagents, and left every section's mtime untouched
+- [x] `--audit` used as the acceptance instrument on all five runs; it caught its own false positive (demanding research state files from a discussion) which was then fixed
+
 Per-run (qualitative, checked at E2E on the baseline executor — decision 24):
 
 - [x] First real `--depth quick` end-to-end run produces a complete artifact tree with every claim's `[n]` traceable to a fetched source — verified 2026-08-12 on a Sonnet-executed run (28/28 citations traceable, zero broken or fabricated, all state files written unaided); an earlier Haiku-executed run surfaced the executor-robustness gaps closed by decision 23
@@ -215,5 +222,6 @@ Per-run (qualitative, checked at E2E on the baseline executor — decision 24):
 
 - Community-marketplace submission — owner's call; materials are validation-ready.
 - Outline-stop and write-side-rewrite capabilities — still deferred; the need has not materialized (re-examined 2026-08-12 after two real E2E runs surfaced no such pain — the impulse traced back to the README's own Roadmap section, which was removed for reading as a promise). Future shape is pre-agreed to avoid re-litigation: **flags on `/storm:research`, not new commands** — `--until-outline` stops after §4 (existing resume later continues into writing; zero new state semantics), `--rewrite` reopens only the write-side stages (sections + polish) with research artifacts and the append-only pool untouched, old output overwritten (history belongs to git). Not commands because playbooks cannot import across skill files: a separate outline command would duplicate §0–§4 wholesale and drift.
-- E2E has covered research (`quick`), interrupt-resume, and discuss warm start with report generation. Still unexercised: the **default `standard` tier**, a discuss **cold start**, an English-language topic, `--yes`, `--fresh`, and a genuinely failing lane. The first two are the submission gate (decision 25); the rest are post-listing.
+- E2E now covers both depth tiers in use (`quick`, `standard`), the perspective gate including a live lane edit, interrupt-resume at two different stages (reference pool and polish), discuss warm start, and discuss cold start through report generation — five runs, all audited by `--audit`. Still unexercised, all judged acceptable post-listing: an English-language topic (every run so far was Chinese; searches were bilingual throughout, so only the output language is untested), `--yes`, `--fresh`, `--depth deep`, and a genuinely failing lane.
+- Source quality remains the softest edge: the hardening #4 rule reduced but did not eliminate aggregator citations (three runs cited portal channels or blogging platforms 3–5× each while originals were reachable). Mitigated by naming the categories explicitly and by the `--audit` WARN that lists offending URLs; revisit if it recurs after the wording change.
 - Mind-map weighting for the report (how strongly human-probed branches expand) may need tuning after real discussions.
