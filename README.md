@@ -38,7 +38,7 @@ Install only from this canonical repository (`coolTheWorld/stanford-oval-storm-s
 | `--depth`               | `quick` (2+1 lanes × 2 turns), `standard` (4+1 × 3, default), `deep` (6+1 × 5) |
 | `--lang`                | Article language (default: the language the topic is written in)              |
 | `--perspectives/--turns`| Fine-grained overrides of the preset                                          |
-| `--yes`                 | Skip the perspective gate — fully unattended run                              |
+| `--yes`                 | Skip the perspective gate (unattended only if WebSearch/WebFetch are pre-approved — otherwise per-domain permission prompts still stop the run) |
 | `--fresh`               | Discard a previous run of the same topic and start over                       |
 
 The command is **slash-only** (the model never auto-triggers it — a run spawns many subagents and hundreds of searches). After the cheap perspective-discovery step it pauses at the **perspective gate** and shows the research plan; you can drop, edit, or add perspectives before the expensive parallel research starts.
@@ -49,7 +49,7 @@ The command is **slash-only** (the model never auto-triggers it — a run spawns
 /storm:discuss <topic> [--experts N] [--beat N] [--lang <language>] [--fresh]
 ```
 
-Warm start is smart: a topic already researched by `/storm:research` reuses its notes and reference pool for free; otherwise a quick background pass (3 mini-lanes) seeds the mind map. The roundtable then advances one **beat** per reply (default 3 grounded utterances — experts answer, complement, rebut; a moderator injects a fresh angle after 3 unsteered turns). You steer between beats: push back, redirect, say `continue`, or say `generate report` to turn the mind map into a cited `report.md` (the discussion may go on afterwards). Rejoining the same topic resumes with a recap; `--fresh` restarts the discussion but never deletes research artifacts or the reference pool.
+Warm start is smart: a topic already researched by `/storm:research` reuses its notes and reference pool for free; otherwise a quick background pass (3 mini-lanes) seeds the mind map. The roundtable then advances one **beat** per reply (default 3 utterances — experts answer from fetched sources, complement, rebut; a moderator injects a fresh angle after 3 unsteered turns). You steer between beats: push back, redirect, say `continue`, or say `generate report` to turn the mind map into a cited `report.md` (the discussion may go on afterwards). Rejoining the same topic resumes with a recap; `--fresh` restarts the discussion but never deletes research artifacts or the reference pool.
 
 ## Pipeline
 
@@ -78,11 +78,13 @@ storm/<topic>/
 ├── research/*.md     # per-perspective notes: Q&A with sources
 ├── references.md     # global reference pool, stable [n] numbering
 ├── outline.md
-├── sections/*.md
+├── sections/*.md     # one file per article section
 ├── article.md        # the research deliverable
 ├── mindmap.md        # discuss: hierarchical concept tree (leaves carry [n])
 ├── discourse.md      # discuss: speaker-tagged roundtable transcript
 ├── discuss.json      # discuss: session state (roster, counters, beat config)
+├── report-outline.md # discuss: report skeleton derived from the mind map
+├── sections/report-*.md  # discuss: one file per report section
 └── report.md         # discuss: cited takeaway report (regenerable)
 ```
 
@@ -127,7 +129,7 @@ claude --plugin-dir /path/to/stanford-oval-storm-skills
 | `--depth`                | `quick`（2+1 路 × 2 轮）、`standard`（4+1 × 3，默认）、`deep`（6+1 × 5） |
 | `--lang`                 | 成文语言（默认跟随主题输入的语言；检索始终中英不限）              |
 | `--perspectives/--turns` | 细粒度覆盖预设                                                    |
-| `--yes`                  | 跳过视角关卡，一条命令到底                                        |
+| `--yes`                  | 跳过视角关卡（须已预先放行 WebSearch/WebFetch 才真能无人值守，否则仍会被逐域权限询问打断） |
 | `--fresh`                | 丢弃同主题的既有运行，从头开始                                    |
 
 命令**仅限斜杠显式触发**（一次运行要开几十个子代理、上百次搜索，模型不会自动开跑）。廉价的视角发现完成后会停在**视角关卡**，展示研究计划供你删改视角，确认后才开始烧钱的并行研究。
@@ -146,7 +148,7 @@ Warm start 是智能的：被 `/storm:research` 研究过的主题免费复用�
 
 引用纪律（从严）：搜索摘要只用于选路、不可引用；凡被引用的来源必被抓取读过原文；百科不作引源；打不开/付费墙的页面不引；正文每个论断都带可回溯到引源池的 [n] 角标。
 
-产物全部落在当前项目的 `storm/<主题>/` 下（run.json 为断点，重跑同主题自动续跑；不想提交产物就把 `storm/` 加进 `.gitignore`）。讨论态在同一目录追加 `mindmap.md`（思维导图）、`discourse.md`（话语记录）、`discuss.json`（会话状态）与 `report.md`（报告）；`references.md` 两态共用、只增不删。
+产物全部落在当前项目的 `storm/<主题>/` 下（run.json 为断点，重跑同主题自动续跑；不想提交产物就把 `storm/` 加进 `.gitignore`）。讨论态在同一目录追加 `mindmap.md`（思维导图）、`discourse.md`（话语记录）、`discuss.json`（会话状态）、`report-outline.md`（报告骨架）、`sections/report-*.md`（报告分节）与 `report.md`（报告）；`references.md` 两态共用、只增不删。
 
 ## 归属与许可
 

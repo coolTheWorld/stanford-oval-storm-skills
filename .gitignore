@@ -1,2 +1,6 @@
 # STORM run artifacts (created when running the storm skills inside this repo)
 storm/
+
+# Local Claude Code session state (must never travel with a clone or fork)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
